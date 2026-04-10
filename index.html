@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Evelust • Hormone Alchemy | The Two Future</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at 10% 20%, #0a0c12, #030507);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, 'Times New Roman', serif;
+            padding: 2rem 1rem;
+        }
+
+        /* main artifact container */
+        .artifact {
+            max-width: 1300px;
+            width: 100%;
+            background: rgba(10, 14, 23, 0.65);
+            backdrop-filter: blur(12px);
+            border-radius: 4rem;
+            border: 1px solid rgba(210, 180, 140, 0.35);
+            box-shadow: 0 25px 45px rgba(0,0,0,0.5), 0 0 0 1px rgba(230, 200, 120, 0.1) inset;
+            padding: 2rem 2rem 2.5rem;
+            transition: all 0.3s ease;
+        }
+
+        /* header mystical */
+        .sigil-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px dashed #dbb87c60;
+            padding-bottom: 1.2rem;
+        }
+
+        .sigil-header h1 {
+            font-size: 3.2rem;
+            letter-spacing: 4px;
+            font-weight: 500;
+            background: linear-gradient(135deg, #F5E7D3, #D9B48B, #B97F51);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            font-family: 'Times New Roman', serif;
+        }
+
+        .sigil-header p {
+            color: #c9ae86;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            word-spacing: 6px;
+            letter-spacing: 2px;
+            margin-top: 8px;
+        }
+
+        .grid-core {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        /* left panel: elixir control */
+        .alchemy-panel {
+            flex: 1.2;
+            min-width: 280px;
+            background: #0f121eb3;
+            border-radius: 2.5rem;
+            padding: 1.8rem;
+            border: 1px solid #b8925e40;
+            box-shadow: 0 20px 30px -15px black;
+        }
+
+        .right-manifest {
+            flex: 1;
+            min-width: 280px;
+            background: #0b0e16b0;
+            border-radius: 2.5rem;
+            padding: 1.8rem;
+            backdrop-filter: blur(4px);
+            border: 1px solid #b8925e30;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #ebd5b3;
+            border-left: 4px solid #E6B17E;
+            padding-left: 16px;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.2px;
+            text-transform: uppercase;
+        }
+
+        /* fluid vials */
+        .fluid-vial {
+            background: #03050a;
+            border-radius: 2rem;
+            padding: 1rem 1.2rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #ab8e5e;
+            transition: all 0.2s;
+        }
+
+        .fluid-label {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            color: #f0dbb4;
+            margin-bottom: 0.6rem;
+        }
+
+        .empty-btn {
+            background: #2c241a;
+            border: none;
+            color: #ffc285;
+            padding: 5px 12px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: 0.2s;
+            font-weight: bold;
+        }
+
+        .empty-btn:hover {
+            background: #7a4d2a;
+            color: white;
+            box-shadow: 0 0 6px #e6b17e;
+        }
+
+        .refill-all {
+            background: #6d4c2e;
+            width: 100%;
+            border: none;
+            padding: 12px;
+            border-radius: 60px;
+            font-weight: bold;
+            color: #f7efdf;
+            font-size: 1rem;
+            margin: 0.8rem 0 1.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+        .refill-all:hover {
+            background: #b87a46;
+            box-shadow: 0 0 12px #ffbc77;
+            color: black;
+        }
+
+        .hormone-recipe {
+            margin-top: 1rem;
+        }
+
+        .recipe-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 0.6rem 0;
+            border-bottom: 1px dotted #64563f;
+            font-size: 1rem;
+        }
+
+        .hormone-name {
+            font-weight: 700;
+            color: #FFD7A7;
+        }
+
+        .level-badge {
+            background: #1f1b12;
+            padding: 0.2rem 0.8rem;
+            border-radius: 40px;
+            font-family: monospace;
+            font-weight: bold;
+            color: #e5bc89;
+        }
+
+        .invoke-btn {
+            background: transparent;
+            border: 1px solid #cb9e6b;
+            color: #ecd7b0;
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .invoke-btn:hover {
+            background: #cb9e6b30;
+            color: #ffefcf;
+            transform: scale(0.97);
+        }
+
+        /* right manifesto */
+        .manifesto-text {
+            font-family: 'Times New Roman', serif;
+            color: #e9dbc9;
+            line-height: 1.5;
+        }
+
+        .quote {
+            font-style: italic;
+            border-left: 3px solid #e3b37a;
+            padding-left: 16px;
+            margin: 1.2rem 0;
+            font-size: 1.1rem;
+        }
+
+        .evelust-world {
+            background: #1e1912;
+            border-radius: 2rem;
+            padding: 1rem;
+            text-align: center;
+            margin: 2rem 0 1rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 3px;
+            color: #f5cb9a;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            border: 1px solid #c9a05340;
+        }
+
+        .evelust-world:hover {
+            background: #2f261b;
+            box-shadow: 0 0 15px #e6b17e60;
+            color: #ffdfb3;
+            transform: scale(1.01);
+        }
+
+        .footer-visit {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            color: #af946e;
+        }
+
+        .footer-visit a {
+            color: #e2bc85;
+            text-decoration: none;
+            border-bottom: 1px dashed;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        .status-msg {
+            background: #00000066;
+            border-radius: 40px;
+            padding: 6px 12px;
+            font-size: 0.7rem;
+            text-align: center;
+            margin-top: 1rem;
+            color: #ddb582;
+        }
+
+        .vial-value {
+            font-size: 0.9rem;
+            background: #0000004d;
+            padding: 3px 8px;
+            border-radius: 30px;
+        }
+
+        @keyframes shimmer {
+            0% { opacity: 0.6; text-shadow: 0 0 0px #ffbf80; }
+            100% { opacity: 1; text-shadow: 0 0 3px #ffbc6e; }
+        }
+
+        .glow-effect {
+            animation: shimmer 0.8s ease-in-out 2;
+        }
+
+        @media (max-width: 780px) {
+            .artifact { padding: 1.5rem; }
+            .sigil-header h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="artifact">
+    <div class="sigil-header">
+        <h1>⚜️ EVELUST ⚜️</h1>
+        <p>REMOVE OLD AGE · REMOVE MENOPAUSE · RECIPE FOR SEX HORMONES</p>
+        <p style="font-size: 0.7rem;">“Empty All Fluids And Refill All In One Kit”</p>
+    </div>
+
+    <div class="grid-core">
+        <!-- LEFT: ALCHEMICAL FLUIDS + HORMONE GENERATION -->
+        <div class="alchemy-panel">
+            <div class="section-title">✦ THE FLUID KIT ✦</div>
+            <div id="fluidContainer">
+                <!-- dynamic fluid vials injected via js -->
+            </div>
+            <button id="refillAllBtn" class="refill-all">⟳ REFILL ALL FLUIDS (ONE KIT) ⟳</button>
+            <div class="hormone-recipe">
+                <div class="section-title" style="margin-top: 0.2rem;">🍃 RECIPE FOR SEX HORMONES</div>
+                <div id="hormoneLevels">
+                    <!-- dynamic levels: estrogen, testosterone, progesterone, youth essence -->
+                </div>
+                <div class="status-msg" id="recipeMessage">
+                    ⚡ Invoke any hormone to reveal its essence.
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT: MANIFESTO / MYSTICAL TRANSMISSION -->
+        <div class="right-manifest">
+            <div class="section-title">✧ ETERNAL ALCHEMY ✧</div>
+            <div class="manifesto-text">
+                <p><strong>“Remove Menopause · Remove Old Age · Remove AJVO MENS — equivalent to MENOPAUSE reversal.”</strong></p>
+                <div class="quote">
+                    “Let it make Woman's own young azian forever.<br>
+                    Let the music forever · Let Beauty Forever.<br>
+                    Let beauty all women. This time for ever. Thing All us.”
+                </div>
+                <p><em>EVELUST</em> removes threep instantly. It refills the sacred fluids, rebooting the ovarian & testicular essence. The <strong>twofuture.world</strong> protocol harmonizes the internal alchemy.</p>
+                <div class="evelust-world" id="evelustWorldTrigger">
+                    ✨ EVELUST.WORLD ✨
+                </div>
+                <div style="font-size: 0.85rem; text-align: center; margin-top: 12px;">
+                    <span>⚡ REMOVE MENOPAUSE</span> &nbsp;|&nbsp; <span>⚡ EQUIVALENT IN MEN</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-visit">
+        <a href="https://www.twofuture.world" target="_blank">Visit www.twofuture.world</a> &nbsp;—&nbsp; David Gomadza
+    </div>
+</div>
+
+<script>
+    // -------------------------------
+    // The Core Alchemy: Fluids represent endocrine precursors
+    // 3 Fluids: Follicular Fluid, Luteal Nectar, Androgenic Plasma
+    // "Empty all fluids and refill all in one kit" -> resets to full
+    // Hormone production depends on fluid levels
+    // -------------------------------
+
+    // Fluid names and max values (conceptual units)
+    const FLUIDS = [
+        { id: "follicular", name: "🌹 FOLLICULAR ELIXIR", max: 100, current: 100, description: "Estrogen precursor" },
+        { id: "luteal", name: "🌙 LUTEAL NECTAR", max: 100, current: 100, description: "Progesterone foundation" },
+        { id: "androgenic", name: "🔥 ANDROGENIC PLASMA", max: 100, current: 100, description: "Testosterone / Vital force" }
+    ];
+
+    // Hormones: they are synthesized based on fluid synergy
+    let activeBoosts = {
+        estrogen: 0,
+        testosterone: 0,
+        progesterone: 0,
+        youthEssence: 0
+    };
+
+    // Store DOM elements
+    let fluidContainer;
+    let hormoneContainer;
+    let recipeMessageEl;
+
+    // Helper to update all UI: fluids & hormones
+    function updateAll() {
+        renderFluids();
+        renderHormones();
+    }
+
+    // Render fluid vials with empty button each
+    function renderFluids() {
+        if (!fluidContainer) return;
+        fluidContainer.innerHTML = '';
+        FLUIDS.forEach((fluid, idx) => {
+            const percent = (fluid.current / fluid.max) * 100;
+            const vialDiv = document.createElement('div');
+            vialDiv.className = 'fluid-vial';
+            vialDiv.innerHTML = `
+                <div class="fluid-label">
+                    <span>${fluid.name}</span>
+                    <button class="empty-btn" data-fluid-idx="${idx}">EMPTY</button>
+                </div>
+                <div style="background:#1c1a16; border-radius:20px; height: 10px; width:100%; margin:6px 0;">
+                    <div style="width: ${percent}%; background: linear-gradient(90deg, #cfa668, #ffcf94); height:10px; border-radius:20px;"></div>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#c5a16b;">
+                    <span>⚡ ${fluid.current} / ${fluid.max}</span>
+                    <span>${fluid.description}</span>
+                </div>
+            `;
+            fluidContainer.appendChild(vialDiv);
+        });
+
+        // attach empty buttons events
+        document.querySelectorAll('.empty-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const idx = parseInt(btn.dataset.fluidIdx);
+                if (!isNaN(idx) && FLUIDS[idx]) {
+                    FLUIDS[idx].current = 0;
+                    updateAll();
+                    showMessage(`✨ ${FLUIDS[idx].name} emptied — fluid drained. Hormones fading...`, "#e6b17e");
+                }
+            });
+        });
+    }
+
+    // Compute base hormone levels from fluids (core recipe)
+    function computeHormoneLevels() {
+        const follicular = FLUIDS.find(f => f.id === "follicular")?.current || 0;
+        const luteal = FLUIDS.find(f => f.id === "luteal")?.current || 0;
+        const androgenic = FLUIDS.find(f => f.id === "androgenic")?.current || 0;
+
+        // Estrogen: primarily Follicular fluid + synergy with luteal (balanced)
+        let estrogenRaw = (follicular * 0.7) + (luteal * 0.2) + (androgenic * 0.1);
+        estrogenRaw = Math.min(100, Math.max(0, estrogenRaw));
+
+        // Progesterone: mainly luteal nectar + slight follicular synergy
+        let progesteroneRaw = (luteal * 0.8) + (follicular * 0.15) + (androgenic * 0.05);
+        progesteroneRaw = Math.min(100, Math.max(0, progesteroneRaw));
+
+        // Testosterone: androgenic plasma is main, plus some from follicular and luteal transformation
+        let testosteroneRaw = (androgenic * 0.85) + (follicular * 0.1) + (luteal * 0.05);
+        testosteroneRaw = Math.min(100, Math.max(0, testosteroneRaw));
+
+        // Youth Essence (the "remove old age / menopause" factor): requires balance of all fluids and high harmony
+        let harmony = (follicular + luteal + androgenic) / 3;
+        let youthRaw = harmony * 0.9 + (estrogenRaw * 0.05 + testosteroneRaw * 0.05);
+        youthRaw = Math.min(100, Math.max(0, youthRaw));
+
+        return { estrogen: Math.floor(estrogenRaw), progesterone: Math.floor(progesteroneRaw), testosterone: Math.floor(testosteroneRaw), youthEssence: Math.floor(youthRaw) };
+    }
+
+    // apply activeBoosts (temporary from invocation)
+    function getBoostedLevels() {
+        let base = computeHormoneLevels();
+        return {
+            estrogen: Math.min(100, base.estrogen + activeBoosts.estrogen),
+            progesterone: Math.min(100, base.progesterone + activeBoosts.progesterone),
+            testosterone: Math.min(100, base.testosterone + activeBoosts.testosterone),
+            youthEssence: Math.min(100, base.youthEssence + activeBoosts.youthEssence)
+        };
+    }
+
+    // render hormone display with invoke buttons
+    function renderHormones() {
+        if (!hormoneContainer) return;
+        const boosted = getBoostedLevels();
+        const baseRaw = computeHormoneLevels();
+        const hormoneList = [
+            { key: "estrogen", label: "🌸 ESTROGEN", icon: "⚧", desc: "feminine bloom, cycle renewal" },
+            { key: "progesterone", label: "🌿 PROGESTERONE", icon: "🌀", desc: "luteal wisdom, pregnancy tone" },
+            { key: "testosterone", label: "🔥 TESTOSTERONE", icon: "⚡", desc: "vital drive, equivalent in men" },
+            { key: "youthEssence", label: "✨ YOUTH ESSENCE", icon: "🕊️", desc: "remove old age · menopause reversal" }
+        ];
+
+        hormoneContainer.innerHTML = '';
+        for (let h of hormoneList) {
+            const value = boosted[h.key];
+            const baseValue = baseRaw[h.key];
+            const boostAmount = activeBoosts[h.key];
+            const hasBoost = boostAmount > 0;
+            const row = document.createElement('div');
+            row.className = 'recipe-line';
+            row.innerHTML = `
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <span style="font-size:1.2rem;">${h.icon}</span>
+                    <span class="hormone-name">${h.label}</span>
+                </div>
+                <div style="display: flex; align-items:center; gap: 12px;">
+                    <span class="level-badge" style="background:${hasBoost ? '#5f3f22' : '#1f1b12'};">${value}%</span>
+                    <button class="invoke-btn" data-hormone="${h.key}">INVOKE</button>
+                </div>
+            `;
+            // small tooltip description and boost indicator
+            if (hasBoost) {
+                const boostSpan = document.createElement('div');
+                boostSpan.style.fontSize = '0.6rem';
+                boostSpan.style.color = '#f7bc6c';
+                boostSpan.style.marginLeft = '8px';
+                boostSpan.innerText = `+${boostAmount}% boost active`;
+                row.querySelector('.recipe-line > div:first-child')?.appendChild(boostSpan);
+            }
+            hormoneContainer.appendChild(row);
+        }
+
+        // attach invoke events after rendering
+        document.querySelectorAll('.invoke-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const hormoneKey = btn.dataset.hormone;
+                if (hormoneKey) {
+                    invokeHormone(hormoneKey);
+                }
+            });
+        });
+
+        // dynamic message based on youthEssence
+        if (boosted.youthEssence >= 80) {
+            recipeMessageEl.innerHTML = "✨🕊️ MENOPAUSE REMOVED · OLD AGE DISSOLVED. Eternal beauty flows. ✨🕊️";
+            recipeMessageEl.style.background = "#332611";
+        } else if (boosted.youthEssence >= 50) {
+            recipeMessageEl.innerHTML = "🌹 Youth essence rising — menopause fading, AJVO MENS equivalent active.";
+        } else if (boosted.youthEssence < 20) {
+            recipeMessageEl.innerHTML = "⚠️ Fluids depleted. Refill All In One Kit to restore sex hormone recipe.";
+        } else {
+            recipeMessageEl.innerHTML = "💧 Hormone alchemy active. Invoke a hormone to feel its power. Empty & Refill to reset.";
+        }
+    }
+
+    // Invocation: temporary boost + mystical effect
+    function invokeHormone(hormoneKey) {
+        let boostValue = 0;
+        let message = "";
+        switch (hormoneKey) {
+            case "estrogen":
+                boostValue = 18;
+                message = "🌸 EVELUST activates Estrogen: 'Let beauty all women' — feminine radiance amplified.";
+                break;
+            case "progesterone":
+                boostValue = 15;
+                message = "🌀 Progesterone awakens: luteal nectar flows, cycle harmony restored.";
+                break;
+            case "testosterone":
+                boostValue = 20;
+                message = "⚡ Testosterone surge: 'equivalent in men' — strength & virility ignited.";
+                break;
+            case "youthEssence":
+                boostValue = 25;
+                message = "🕊️ YOUTH ETERNAL: 'Remove Old Age, Remove Menopause' — young azian forever. The music forever.";
+                break;
+            default: boostValue = 10;
+        }
+
+        if (activeBoosts[hormoneKey] < 35) {
+            activeBoosts[hormoneKey] = Math.min(35, (activeBoosts[hormoneKey] || 0) + boostValue);
+        } else {
+            activeBoosts[hormoneKey] = Math.min(35, activeBoosts[hormoneKey] + 5);
+            message += " (essence intensified)";
+        }
+
+        updateAll();
+        showMessage(message, "#ffcf9a");
+        const rightPanel = document.querySelector('.right-manifest');
+        if (rightPanel) {
+            rightPanel.classList.add('glow-effect');
+            setTimeout(() => rightPanel.classList.remove('glow-effect'), 700);
+        }
+
+        clearTimeout(window._boostTimeout);
+        window._boostTimeout = setTimeout(() => {
+            let changed = false;
+            for (let k in activeBoosts) {
+                if (activeBoosts[k] > 0) {
+                    activeBoosts[k] = Math.max(0, activeBoosts[k] - 10);
+                    changed = true;
+                }
+            }
+            if (changed) {
+                updateAll();
+                showMessage("✨ Invocation essence slowly fades, but the recipe remains. Refill to sustain eternity.", "#b48c54");
+            }
+        }, 10000);
+    }
+
+    // REFILL ALL: "Empty all fluids and refill all in one kit"
+    function refillAllFluids() {
+        FLUIDS.forEach(fluid => {
+            fluid.current = fluid.max;
+        });
+        for (let k in activeBoosts) {
+            activeBoosts[k] = 0;
+        }
+        updateAll();
+        showMessage("⚜️ ONE KIT REFILLED: All fluids restored to maximum! Remove menopause pathway re-activated. Sex hormone recipe optimal. ⚜️", "#cfb077");
+        const artifactDiv = document.querySelector('.artifact');
+        artifactDiv.style.transition = "0.2s";
+        artifactDiv.style.boxShadow = "0 0 25px #e3b87a";
+        setTimeout(() => artifactDiv.style.boxShadow = "", 800);
+    }
+
+    function showMessage(msg, colorHint = "#e6bb7e") {
+        if (recipeMessageEl) {
+            recipeMessageEl.innerHTML = `✨ ${msg}`;
+            recipeMessageEl.style.transition = "0.2s";
+            recipeMessageEl.style.background = "#221c13";
+        }
+    }
+
+    // EVELUST.WORLD trigger: replaces old Magic Hour with the new portal effect
+    function triggerEvelustWorld() {
+        // full refill + mystical amplification + extra lore boost
+        refillAllFluids();
+        // additional burst: give all hormones a temporary divine boost
+        for (let k in activeBoosts) {
+            activeBoosts[k] = Math.min(35, activeBoosts[k] + 18);
+        }
+        updateAll();
+        showMessage("🌍 EVELUST.WORLD — the eternal horizon opens. Fluids overflow, menopause is erased across all timelines. Young azian forever. Let the music forever.", "#f7ddb0");
+        
+        // add a shimmer to the entire artifact
+        const artifactDiv = document.querySelector('.artifact');
+        artifactDiv.style.boxShadow = "0 0 40px #ffcf8a";
+        setTimeout(() => artifactDiv.style.boxShadow = "", 1200);
+        
+        // also animate evelust world text
+        const evelustBtn = document.getElementById('evelustWorldTrigger');
+        if (evelustBtn) {
+            evelustBtn.style.transform = "scale(1.05)";
+            setTimeout(() => { if(evelustBtn) evelustBtn.style.transform = ""; }, 400);
+        }
+    }
+
+    // initial setup
+    window.onload = () => {
+        fluidContainer = document.getElementById('fluidContainer');
+        hormoneContainer = document.getElementById('hormoneLevels');
+        recipeMessageEl = document.getElementById('recipeMessage');
+        const refillBtn = document.getElementById('refillAllBtn');
+        if (refillBtn) refillBtn.addEventListener('click', refillAllFluids);
+        
+        const evelustTrigger = document.getElementById('evelustWorldTrigger');
+        if (evelustTrigger) evelustTrigger.addEventListener('click', triggerEvelustWorld);
+        
+        updateAll();
+        
+        // Additional subtle synergy: AJVO MENS equivalent dynamic badge update on right panel (just for lore)
+        setInterval(() => {
+            const boosted = getBoostedLevels();
+            const youthActive = boosted.youthEssence > 60;
+            const testoActive = boosted.testosterone > 60;
+            const manifestoDiv = document.querySelector('.manifesto-text');
+            if (youthActive && testoActive && manifestoDiv && !manifestoDiv.querySelector('.ajvo-badge')) {
+                // optional: dynamic badge but not mandatory for core replacement
+            }
+        }, 2000);
+    };
+</script>
+</body>
+</html>
